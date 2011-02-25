@@ -1,3 +1,58 @@
+"""
+:mod:`django-pedantic-http-methods`
+===================================
+
+This `Django <http://www.djangoproject.com/>`_ application enforces correct (at
+least better) usage of HTTP by raising an exception when performing ``UPDATE``
+or ``INSERT`` statements during ``GET`` or ``HEAD`` HTTP requests.
+
+This can be good programming style but also necessary to permit architectures
+involving read-write splitting on HTTP method.
+
+Installation
+------------
+
+Add ``pedantic_http_methods`` to your ``INSTALLED_APPS``::
+
+    INSTALLED_APPS = (
+        ...
+        'pedantic_http_methods',
+        ...
+    )
+
+Configuration
+-------------
+
+``PEDANTIC_HTTP_METHODS_ENABLED``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Default: ``settings.DEBUG``
+
+To avoid the overheard of checking the request method in some environments, you
+can completely disable this application using this setting.
+
+``PEDANTIC_HTTP_METHODS_IGNORE``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Default: ``()`` (empty)
+
+An iterable of regular expressions that are matched against SQL to be executed.
+If any of the patterns match, the SQL is assumed to be side-effect free.
+
+This can be used to ignore tables that are not written to in some environments.
+(eg. ``django_session`` only used locally) or to ignore features on your site
+that have not or will not be ported to use the correct HTTP method.
+
+Links
+-----
+
+View/download code
+  https://github.com/playfire/django-pedantic-http-methods
+
+File a bug
+  https://github.com/playfire/django-pedantic-http-methods/issues
+"""
+
 import re
 import sys
 

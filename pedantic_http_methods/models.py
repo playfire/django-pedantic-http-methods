@@ -12,6 +12,29 @@ Raw SQL statements executed via ``django.db.connection.cursor`` are also
 checked for correctness. No error is thrown when queries are performed outside
 of the usual request-response cycle.
 
+Example
+-------
+
+::
+
+    from django.db import connection
+    from django.contrib.auth.model import User
+
+    def example(request):
+        # SELECTs are always allowed
+        user = User.objects.get(username='lamby')
+
+        # The following INSERT will raise IncorrectHTTPMethod when called via
+        # HTTP GET or HEAD
+        user2 = User.objects.create('lamby2', 'example@example.com')
+
+        # Side-effects via "raw" queries are also caught
+        cursor = connection.cursor()
+        cursor.execute(
+            "UPDATE auth_user SET username = %s WHERE pk = %s",
+            ('lamby3', user2.pk),
+        )
+
 Installation
 ------------
 

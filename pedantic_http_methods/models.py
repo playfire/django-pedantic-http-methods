@@ -2,12 +2,15 @@
 :mod:`django-pedantic-http-methods`
 ===================================
 
-This `Django <http://www.djangoproject.com/>`_ application enforces correct (at
-least better) usage of HTTP by raising an exception when performing ``UPDATE``
-or ``INSERT`` statements during ``GET`` or ``HEAD`` HTTP requests.
+This reusable `Django <http://www.djangoproject.com/>`_ application enforces
+correct (or at least better) usage of HTTP by raising an exception when
+performing ``UPDATE`` or ``INSERT`` statements during ``GET`` or ``HEAD`` HTTP
+requests. This is necessary to permit architectures such as read-write
+splitting on HTTP method, but it is good practice anyway.
 
-This can be good programming style but also necessary to permit architectures
-involving read-write splitting on HTTP method.
+Raw SQL statements executed via ``django.db.connection.cursor`` are also
+checked for correctness. No error is thrown when queries are performed outside
+of the usual request-response cycle.
 
 Installation
 ------------

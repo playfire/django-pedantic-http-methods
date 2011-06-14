@@ -87,7 +87,7 @@ from django.db.backends import util, BaseDatabaseWrapper
 
 import app_settings
 
-re_select = re.compile(r'\s*SELECT\b', re.IGNORECASE)
+re_sql = re.compile(r'\s*SELECT\b', re.IGNORECASE)
 
 class IncorrectHTTPMethod(Exception):
     def __init__(self, sql):
@@ -98,7 +98,7 @@ class IncorrectHTTPMethod(Exception):
 
 class CursorWrapper(util.CursorDebugWrapper):
     def execute(self, sql, *args, **kwargs):
-        if re_select.match(sql):
+        if re_sql.match(sql):
             return self.cursor.execute(sql, *args, **kwargs)
 
         for pattern in app_settings.IGNORE:

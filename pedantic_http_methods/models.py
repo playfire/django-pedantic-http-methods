@@ -87,7 +87,7 @@ from django.db.backends import util, BaseDatabaseWrapper
 
 import app_settings
 
-re_sql = re.compile(r'\s*(SELECT|EXPLAIN)\b', re.IGNORECASE)
+re_sql = re.compile(r'\s*(SELECT|EXPLAIN|SAVEPOINT|RELEASE SAVEPOINT|ROLLBACK TO SAVEPOINT)\b', re.IGNORECASE)
 
 class IncorrectHTTPMethod(Exception):
     def __init__(self, sql):
